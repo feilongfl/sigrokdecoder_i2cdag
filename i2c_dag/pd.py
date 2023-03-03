@@ -30,50 +30,6 @@ logging.basicConfig(filename='/tmp/sigrok_decoder_i2c_dag.log',
                     encoding='utf-8', level=logging.DEBUG)
 
 
-class DAG:
-    def __init__(self, file, srd) -> None:
-        self.dag = DAGObject(file=file)
-        logging.info("Config: %s" % self.dag)
-
-        self._decode_listener_init()
-        self._srd = srd
-
-    def _put_byte(self, ss, es, dag):
-        self._srd.put_frame(ss, es, dag.getName())
-
-    def _decode_listener_address_write(self, ss, es, data) -> None:
-        self._dag = self.dag.getDAG(data[1])
-        if self._dag == None:
-            logging.debug("ignore addr %s" % data[1])
-        else:
-            self._put_byte(ss, es, self._dag)
-
-        self._last_bits = None
-        pass
-
-    def _decode_listener_data(self, ss, es, data) -> None:
-        pass
-
-    def _decode_listener_bits(self, ss, es, data) -> None:
-        self._last_bits = (ss, es, data)
-        pass
-
-    def _decode_listener_init(self) -> None:
-        self.decode_listener = {
-            'ADDRESS WRITE': self._decode_listener_address_write,
-            'DATA WRITE': self._decode_listener_data,
-            'DATA READ': self._decode_listener_data,
-            'BITS': self._decode_listener_bits,
-        }
-        pass
-
-    def decode(self, ss, es, data):
-        if data[0] in self.decode_listener.keys():
-            self.decode_listener[data[0]](ss, es, data)
-
-    pass
-
-
 class Decoder(srd.Decoder):
     api_version = 3
     id = 'i2c_dag'
@@ -105,6 +61,8 @@ class Decoder(srd.Decoder):
         self.dagfile = ""
         self.dag = None
 
+        self._decode_listener_init()
+
     def reset(self):
         logging.info("I²C DAG: reset")
 
@@ -114,13 +72,48 @@ class Decoder(srd.Decoder):
 
         self.dagfile = self.options['dag']
         logging.info("dag: %s" % os.path.realpath(self.dagfile))
-        self.dag = DAG(self.dagfile, self)
-
-    def put_frame(self, ss, es, label):
-        self.put(ss, es, self.out_ann, [1, label])
+        self.dag = DAGObject(file=self.dagfile)
 
     def decode(self, ss, es, data):
         logging.info("I²C DAG: decode: %s" % data)
 
-        if self.dag != None:
-            self.dag.decode(ss, es, data)
+        if self.dag == None:
+            return
+
+        if data[0] in self.decode_listener.keys():
+            self.decode_listener[data[0]](ss, es, data)
+
+    ###########################
+    # Print Methods
+    ###########################
+    def put_dagName(self, ss, es, dag):
+        self.put(ss, es, self.out_ann, [1, dag.getName()])
+
+    ###########################
+    # decord listeners
+    ###########################
+    def _decode_listener_address_write(self, ss, es, data) -> None:
+        self._dag = self.dag.getDAG(data[1])
+        if self._dag == None:
+            logging.debug("ignore addr %s" % data[1])
+        else:
+            self.put_dagName(ss, es, self._dag)
+
+        self._last_bits = None
+        pass
+
+    def _decode_listener_data(self, ss, es, data) -> None:
+        pass
+
+    def _decode_listener_bits(self, ss, es, data) -> None:
+        self._last_bits = (ss, es, data)
+        pass
+
+    def _decode_listener_init(self) -> None:
+        self.decode_listener = {
+            'ADDRESS WRITE': self._decode_listener_address_write,
+            'DATA WRITE': self._decode_listener_data,
+            'DATA READ': self._decode_listener_data,
+            'BITS': self._decode_listener_bits,
+        }
+        pass
