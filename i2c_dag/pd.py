@@ -20,10 +20,12 @@
 import sigrokdecode as srd
 import os
 import logging
+import tempfile
 
 from .dag_object import DAGObject
 
-logging.basicConfig(filename='/tmp/sigrok_decoder_i2c_dag.log',
+logfile = os.path.join(tempfile.gettempdir(), 'sigrok_decoder_i2c_dag.log')
+logging.basicConfig(filename=logfile,
                     datefmt='%m/%d/%Y %I:%M:%S %p',
                     format='%(asctime)s %(message)s',
                     encoding='utf-8', level=logging.DEBUG)
@@ -56,6 +58,7 @@ class Decoder(srd.Decoder):
 
     def __init__(self):
         logging.info("I²C DAG: init")
+        logging.info(f"I²C DAG: log storage to {logfile}")
 
         self.dagfile = ""
         self.dag = None
