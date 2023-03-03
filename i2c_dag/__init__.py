@@ -33,5 +33,7 @@ with the 'direction' option, which should be 'read', 'write', or 'both'.
 Both of these are optional; if no options are specified the entire payload
 of the I²C session will be output.
 '''
+import sys
 
-from .pd import Decoder
+if "pytest" not in sys.modules:
+    from .pd import Decoder
