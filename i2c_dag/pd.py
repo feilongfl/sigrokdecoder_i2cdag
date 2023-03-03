@@ -19,7 +19,6 @@
 
 import sigrokdecode as srd
 import os
-import yaml
 import logging
 
 from .dag_object import DAGObject
