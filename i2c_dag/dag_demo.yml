@@ -1,0 +1,45 @@
+%YAML 1.2
+---
+info:
+  name: dag demo
+  version: 1.0
+dag:
+  0x01:
+    info:
+      name: D01
+      longname: device_0x01
+    addrinc: true
+    dag_size: 1
+    dag:
+      0x02:
+        info:
+          name: R02
+          longname: REG_02
+        addrinc: true
+        dag_size: 1
+        dag_bits:
+          - name: REG02_BIT0
+            value:
+              0x00: REG02_BIT0__00
+              0x01: REG02_BIT0__01
+          - name: REG02_BIT1_3
+            size: 3
+            value:
+              0x00: REG02_BIT1_3__00
+              0x01: REG02_BIT1_3__01
+              0x02: REG02_BIT1_3__02
+          - name: REG02_BIT4_7
+            size: 4
+            value:
+              0x00: REG02_BIT4_7__00
+              0x01: REG02_BIT4_7__01
+              0x02: REG02_BIT4_7__02
+              0x03: REG02_BIT4_7__03
+              0x04: REG02_BIT4_7__04
+              0x05: REG02_BIT4_7__05
+              0x06: REG02_BIT4_7__06
+              0x07: REG02_BIT4_7__07
+  0x3a:
+    info:
+      name: D3a
+      longname: device_0x3a
