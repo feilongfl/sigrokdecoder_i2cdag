@@ -39,6 +39,9 @@ class YAMLObject():
 
 class DAGObject(YAMLObject):
     def getName(self):
+        if 'longname' not in self.info.__dict__:
+            self.info.__dict__['longname'] = self.info.name
+
         return [self.info.longname, self.info.name]
 
     def getDAG(self, id):

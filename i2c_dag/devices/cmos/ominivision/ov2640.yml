@@ -6,8 +6,9 @@ info:
   path: cmos/ominivision/ov2640.yml
   documents: https://www.uctronics.com/download/cam_module/OV2640DS.pdf
 dag_size: 1
+page: 0xff
 dag:
-  0x02:
+  0x00_0x05:
     info:
-      name: R02
-      longname: OVREG_02
+      name: R_BYPASS
+      longname: Bypass DSP
