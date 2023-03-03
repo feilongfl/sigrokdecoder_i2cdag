@@ -1,7 +1,7 @@
 ##
 # This file is part of the libsigrokdecode project.
 ##
-# Copyright (C) 2018 Michalis Pappas <mpappas@fastmail.fm>
+# Copyright (C) 2023 YuLong Yao<feilongphone@gmail.com>
 ##
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
