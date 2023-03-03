@@ -1,5 +1,8 @@
 import yaml
 import os
+import logging
+
+LOGGER = logging.getLogger(__name__)
 
 
 class YAMLObject():
@@ -11,16 +14,27 @@ class YAMLObject():
         for k, v in parent.items():
             match v:
                 case dict():
-                    print(f"dict  : k={k}, t={type(v)}, v={v}")
+                    LOGGER.debug(f"dict  : k={k}, t={type(v)}, v={v}")
                     if k not in self.__dict__.keys():
                         self.__dict__[k] = self.__class__(v)
 
                 case _:
-                    print(f"unknow: k={k}, t={type(v)}, v={v}")
-                    self.__dict__[k] = v
+                    LOGGER.debug(f"unknow: k={k}, t={type(v)}, v={v}")
+                    if(k == 'include'):
+                        LOGGER.info(f"include yml file: {v}")
+                        dir = os.path.dirname(os.path.realpath(__file__))
+                        file = os.path.join(dir, 'devices', v)
+
+                        for k, v in self.__class__(file=file).items():
+                            self.__dict__[k] = v
+                    else:
+                        self.__dict__[k] = v
 
     def __str__(self) -> str:
         return yaml.dump(self.__dict__)
+
+    def items(self):
+        return self.__dict__.items()
 
 
 class DAGObject(YAMLObject):

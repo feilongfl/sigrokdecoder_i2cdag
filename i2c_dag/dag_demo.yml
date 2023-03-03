@@ -3,8 +3,6 @@
 info:
   name: dag demo
   version: 1.0
-searchpath:
-  - devices
 dag:
   0x01:
     info:
@@ -46,4 +44,5 @@ dag:
       name: D3a
       longname: device_0x3a
   0x30:
+    # search in {yml dir}/devices/
     include: cmos/ominivision/ov2640.yml
