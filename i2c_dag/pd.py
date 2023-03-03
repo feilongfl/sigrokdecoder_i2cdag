@@ -106,7 +106,7 @@ class Decoder(srd.Decoder):
         pass
 
     def _decode_listener_bits(self, ss, es, data) -> None:
-        self._last_bits = (ss, es, data)
+        self._decode_listener_bits_last = (ss, es, data)
         pass
 
     def _decode_listener_init(self) -> None:
