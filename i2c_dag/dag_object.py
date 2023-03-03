@@ -32,12 +32,3 @@ class DAGObject(YAMLObject):
             return self.dag.__dict__[id]
 
         return None
-
-# file = os.path.join(
-#     os.path.dirname(os.path.realpath(__file__)), 'dag_demo.yml')
-
-# with open(os.path.relpath(file)) as f:
-#     dag: dict = yaml.safe_load(f)
-
-#     dag = DAGObject(dag)
-#     print(dag)
