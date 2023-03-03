@@ -47,5 +47,11 @@ class DAGObject(YAMLObject):
 
         return None
 
+    def getDAGkeys(self):
+        if 'dag' in self.__dict__:
+            return self.dag.__dict__.keys()
+        else:
+            return []
+
     def __str__(self) -> str:
         return self.info.name

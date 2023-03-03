@@ -1,2 +1,4 @@
 __pycache__
 .pytest_cache
+i2c_dag/dag.png
+i2c_dag/dag.dot
