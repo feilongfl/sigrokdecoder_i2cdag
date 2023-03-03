@@ -30,7 +30,7 @@ class YAMLObject():
                     else:
                         self.__dict__[k] = v
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return yaml.dump(self.__dict__)
 
     def items(self):
@@ -46,3 +46,6 @@ class DAGObject(YAMLObject):
             return self.dag.__dict__[id]
 
         return None
+
+    def __str__(self) -> str:
+        return self.info.name
