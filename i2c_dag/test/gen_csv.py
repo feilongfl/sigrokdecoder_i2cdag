@@ -48,6 +48,8 @@ class IIC():
         self.write(['; %s' % command])
         if(command in self.process_dict.keys()):
             self.process_dict[command](command)
+        elif (command[0] == ';'):
+            pass
         else:
             self.writeData(command)
 
