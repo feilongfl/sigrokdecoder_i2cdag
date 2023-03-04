@@ -110,11 +110,8 @@ class Decoder(srd.Decoder):
     def _decode_listener_data_bits_xxx(self, bitdesc):
         (_, _, data) = self._decode_listener_bits_last
 
-        ss, es = data[7-bitdesc.mask.start][1], data[7-bitdesc.mask.end][2]
-        logging.debug("I²C DAG: _decode_listener_data_bits_xxx: %s" %
-                      bitdesc.mask.start)
-        logging.debug("I²C DAG: _decode_listener_data_bits_xxx: %s" %
-                      bitdesc.mask.end)
+        ss, es = data[bitdesc.mask.end][1], data[bitdesc.mask.start][2]
+        # ss, es = data[7-bitdesc.mask.start][1], data[7-bitdesc.mask.end][2]
         self.put_bitName(ss, es, bitdesc)
 
     def _decode_listener_data_bits(self, dag_bits):
