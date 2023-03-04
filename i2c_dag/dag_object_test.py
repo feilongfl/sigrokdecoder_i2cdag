@@ -38,6 +38,7 @@ class TestDAGObject:
             graph.add_node(node)
             graph.add_edge(pydot.Edge(parent, name))
 
+            dag.setPage(0)
             for k in dag.getDAGkeys():
                 child = dag.getDAG(k)
                 if(child != None):

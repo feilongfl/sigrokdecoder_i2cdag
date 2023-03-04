@@ -38,17 +38,37 @@ class YAMLObject():
 
 
 class DAGObject(YAMLObject):
-    def getName(self):
-        if 'longname' not in self.info.__dict__:
-            self.info.__dict__['longname'] = self.info.name
+    def __init__(self, parent: dict = {}, file=None) -> None:
+        super().__init__(parent, file)
 
+        if 'info' in self.__dict__:
+            if 'longname' not in self.info.__dict__:
+                self.info.__dict__['longname'] = self.info.name
+
+        if 'page' not in self.__dict__:
+            self.page = None
+
+    def getName(self):
         return [self.info.longname, self.info.name]
 
     def getDAG(self, id):
+        ret = None
         if id in self.dag.__dict__.keys():
-            return self.dag.__dict__[id]
+            if self.page == None:
+                ret = self.dag.__dict__[id]
+            else:
+                try:
+                    ret = self.dag.__dict__[id].__dict__[self.page.current]
+                except:
+                    ret = None
 
-        return None
+        return ret
+
+    def setPage(self, page) -> None:
+        if self.page != None:
+            self.page.current = page & self.page.mask
+        else:
+            logging.warning(f"DAG [{self}] not support setPage")
 
     def getDAGkeys(self):
         if 'dag' in self.__dict__:
