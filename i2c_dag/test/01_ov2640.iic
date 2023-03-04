@@ -1,0 +1,25 @@
+idle
+; write ov2640 page 0
+start
+0x60
+ack
+0xff
+ack
+0x00
+ack
+stop
+idle
+; write ov2640 reg 0x50 ~ 0x52
+start
+0x60
+ack
+0x50
+ack
+0x01
+ack
+0x02
+ack
+0x03
+ack
+stop
+idle
