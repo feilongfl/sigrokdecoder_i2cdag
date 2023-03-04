@@ -28,7 +28,7 @@ logfile = os.path.join(tempfile.gettempdir(), 'sigrok_decoder_i2c_dag.log')
 logging.basicConfig(filename=logfile,
                     datefmt='%m/%d/%Y %I:%M:%S %p',
                     format='%(asctime)s %(message)s',
-                    encoding='utf-8', level=logging.DEBUG)
+                    encoding='utf-8', level=logging.INFO)
 
 
 class Decoder(srd.Decoder):
@@ -93,7 +93,8 @@ class Decoder(srd.Decoder):
 
     def put_bitName(self, ss, es, bitdesc, data):
         mask = 1 << (bitdesc.mask.end+1) - 1 << bitdesc.mask.start
-        desc = "%s: %s" % (bitdesc.longname, bitdesc.value.__dict__[data & mask])
+        desc = "%s: %s" % (
+            bitdesc.longname, bitdesc.value.__dict__[data & mask])
         self.put(ss, es, self.out_ann, [1, [desc, bitdesc.name]])
 
     ###########################
@@ -102,24 +103,22 @@ class Decoder(srd.Decoder):
     def _decode_listener_address_write(self, ss, es, data) -> None:
         self._dag = self.dag.getDAG(data[1])
         if self._dag == None:
-            logging.debug("ignore addr %s" % data[1])
+            logging.warning("ignore addr %s" % data[1])
         else:
             self.put_dagName(ss, es, self._dag)
 
         self._last_bits = None
         pass
 
+    # subfunc by: _decode_listener_data
     def _decode_listener_data_bits_each(self, bitdesc, data):
         (_, _, bits) = self._decode_listener_bits_last
 
         ss, es = bits[bitdesc.mask.end][1], bits[bitdesc.mask.start][2]
         self.put_bitName(ss, es, bitdesc, data)
 
+    # subfunc by: _decode_listener_data
     def _decode_listener_data_bits(self, dag_bits, data):
-        logging.debug(
-            "I²C DAG: last_bits: [%s][%s] %s" % self._decode_listener_bits_last)
-        logging.debug("I²C DAG: dag_bits_desc: %s" % dag_bits)
-
         for bitdesc in dag_bits:
             self._decode_listener_data_bits_each(bitdesc, data)
 
@@ -127,14 +126,13 @@ class Decoder(srd.Decoder):
         if self._dag == None:
             return
 
-        # logging.debug(self._dag.__dict__)
         if 'dag_bits' in self._dag.__dict__.keys():
             self._decode_listener_data_bits(self._dag.dag_bits, data[1])
             pass
         else:
             self._dag = self._dag.getDAG(data[1])
             if self._dag == None:
-                logging.debug("ignore data %s" % data[1])
+                logging.warning("ignore data %s" % data[1])
             else:
                 self.put_dagName(ss, es, self._dag)
 
