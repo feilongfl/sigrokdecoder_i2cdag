@@ -19,7 +19,7 @@ dag:
         dag:
           0x05:
             info:
-              name: D0205
+              name: D02_05
               longname: REG_02_05
             dag_size: 1
             dag_bits:
