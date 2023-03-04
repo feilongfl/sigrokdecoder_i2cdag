@@ -91,8 +91,10 @@ class Decoder(srd.Decoder):
     def put_dagName(self, ss, es, dag):
         self.put(ss, es, self.out_ann, [1, dag.getName()])
 
-    def put_bitName(self, ss, es, bit):
-        self.put(ss, es, self.out_ann, [1, [bit.longname, bit.name]])
+    def put_bitName(self, ss, es, bitdesc, data):
+        mask = 1 << (bitdesc.mask.end+1) - 1 << bitdesc.mask.start
+        desc = "%s: %s" % (bitdesc.longname, bitdesc.value.__dict__[data & mask])
+        self.put(ss, es, self.out_ann, [1, [desc, bitdesc.name]])
 
     ###########################
     # decord listeners
@@ -107,20 +109,19 @@ class Decoder(srd.Decoder):
         self._last_bits = None
         pass
 
-    def _decode_listener_data_bits_xxx(self, bitdesc):
-        (_, _, data) = self._decode_listener_bits_last
+    def _decode_listener_data_bits_each(self, bitdesc, data):
+        (_, _, bits) = self._decode_listener_bits_last
 
-        ss, es = data[bitdesc.mask.end][1], data[bitdesc.mask.start][2]
-        # ss, es = data[7-bitdesc.mask.start][1], data[7-bitdesc.mask.end][2]
-        self.put_bitName(ss, es, bitdesc)
+        ss, es = bits[bitdesc.mask.end][1], bits[bitdesc.mask.start][2]
+        self.put_bitName(ss, es, bitdesc, data)
 
-    def _decode_listener_data_bits(self, dag_bits):
+    def _decode_listener_data_bits(self, dag_bits, data):
         logging.debug(
             "I²C DAG: last_bits: [%s][%s] %s" % self._decode_listener_bits_last)
         logging.debug("I²C DAG: dag_bits_desc: %s" % dag_bits)
 
         for bitdesc in dag_bits:
-            self._decode_listener_data_bits_xxx(bitdesc)
+            self._decode_listener_data_bits_each(bitdesc, data)
 
     def _decode_listener_data(self, ss, es, data) -> None:
         if self._dag == None:
@@ -128,7 +129,7 @@ class Decoder(srd.Decoder):
 
         # logging.debug(self._dag.__dict__)
         if 'dag_bits' in self._dag.__dict__.keys():
-            self._decode_listener_data_bits(self._dag.dag_bits)
+            self._decode_listener_data_bits(self._dag.dag_bits, data[1])
             pass
         else:
             self._dag = self._dag.getDAG(data[1])
