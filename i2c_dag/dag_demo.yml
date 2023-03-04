@@ -16,29 +16,51 @@ dag:
           name: R02
           longname: REG_02
         addrinc: true
-        dag_size: 1
-        dag_bits:
-          - name: REG02_BIT0
-            value:
-              0x00: REG02_BIT0__00
-              0x01: REG02_BIT0__01
-          - name: REG02_BIT1_3
-            size: 3
-            value:
-              0x00: REG02_BIT1_3__00
-              0x01: REG02_BIT1_3__01
-              0x02: REG02_BIT1_3__02
-          - name: REG02_BIT4_7
-            size: 4
-            value:
-              0x00: REG02_BIT4_7__00
-              0x01: REG02_BIT4_7__01
-              0x02: REG02_BIT4_7__02
-              0x03: REG02_BIT4_7__03
-              0x04: REG02_BIT4_7__04
-              0x05: REG02_BIT4_7__05
-              0x06: REG02_BIT4_7__06
-              0x07: REG02_BIT4_7__07
+        dag:
+          0x05:
+            info:
+              name: D0205
+              longname: REG_02_05
+            dag_size: 1
+            dag_bits:
+              - name: B0
+                longname: REG02_BIT0
+                mask: 0x01
+                value:
+                  0x00: REG02_BIT0__00
+                  0x01: REG02_BIT0__01
+              - name: B1.3
+                longname: REG02_BIT1_3
+                mask: 0x0e
+                value:
+                  0x00: REG02_BIT1_3__00
+                  0x02: REG02_BIT1_3__01
+                  0x04: REG02_BIT1_3__02
+                  0x06: REG02_BIT1_3__03
+                  0x08: REG02_BIT1_3__04
+                  0x0A: REG02_BIT1_3__05
+                  0x0c: REG02_BIT1_3__06
+                  0x0e: REG02_BIT1_3__07
+              - name: B4.7
+                longname: REG02_BIT4_7
+                mask: 0xf0
+                value:
+                  0x00: REG02_BIT4_7__00
+                  0x10: REG02_BIT4_7__01
+                  0x20: REG02_BIT4_7__02
+                  0x30: REG02_BIT4_7__03
+                  0x40: REG02_BIT4_7__04
+                  0x50: REG02_BIT4_7__05
+                  0x60: REG02_BIT4_7__06
+                  0x70: REG02_BIT4_7__07
+                  0x80: REG02_BIT4_7__08
+                  0x90: REG02_BIT4_7__09
+                  0xa0: REG02_BIT4_7__0a
+                  0xb0: REG02_BIT4_7__0b
+                  0xc0: REG02_BIT4_7__0c
+                  0xd0: REG02_BIT4_7__0d
+                  0xe0: REG02_BIT4_7__0e
+                  0xf0: REG02_BIT4_7__0f
   0x3a:
     info:
       name: D3a

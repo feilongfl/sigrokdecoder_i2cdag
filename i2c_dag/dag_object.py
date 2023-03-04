@@ -18,8 +18,15 @@ class YAMLObject():
                     if k not in self.__dict__.keys():
                         self.__dict__[k] = self.__class__(v)
 
+                case list():
+                    LOGGER.debug(f"list  : k={k}, t={type(v)}, v={v}")
+                    if k not in self.__dict__.keys():
+                        self.__dict__[k] = []
+
+                    for item in v:
+                        self.__dict__[k].append(self.__class__(item))
+
                 case _:
-                    LOGGER.debug(f"unknow: k={k}, t={type(v)}, v={v}")
                     if(k == 'include'):
                         LOGGER.info(f"include yml file: {v}")
                         dir = os.path.dirname(os.path.realpath(__file__))
@@ -28,6 +35,7 @@ class YAMLObject():
                         for k, v in self.__class__(file=file).items():
                             self.__dict__[k] = v
                     else:
+                        LOGGER.debug(f"others: k={k}, t={type(v)}, v={v}")
                         self.__dict__[k] = v
 
     def __repr__(self) -> str:
@@ -53,6 +61,9 @@ class DAGObject(YAMLObject):
 
     def getDAG(self, id):
         ret = None
+        if 'dag' not in self.__dict__.keys():
+            return
+
         if id in self.dag.__dict__.keys():
             if self.page == None:
                 ret = self.dag.__dict__[id]
