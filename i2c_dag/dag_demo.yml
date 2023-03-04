@@ -25,13 +25,17 @@ dag:
             dag_bits:
               - name: B0
                 longname: REG02_BIT0
-                mask: 0x01
+                mask:
+                  start: 0
+                  end: 0
                 value:
                   0x00: REG02_BIT0__00
                   0x01: REG02_BIT0__01
               - name: B1.3
                 longname: REG02_BIT1_3
-                mask: 0x0e
+                mask:
+                  start: 1
+                  end: 3
                 value:
                   0x00: REG02_BIT1_3__00
                   0x02: REG02_BIT1_3__01
@@ -43,7 +47,9 @@ dag:
                   0x0e: REG02_BIT1_3__07
               - name: B4.7
                 longname: REG02_BIT4_7
-                mask: 0xf0
+                mask:
+                  start: 4
+                  end: 7
                 value:
                   0x00: REG02_BIT4_7__00
                   0x10: REG02_BIT4_7__01

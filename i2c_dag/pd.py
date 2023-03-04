@@ -109,34 +109,21 @@ class Decoder(srd.Decoder):
 
     def _decode_listener_data_bits_xxx(self, bitdesc):
         (_, _, data) = self._decode_listener_bits_last
-        ss, es = data[0][1], data[0][2]
 
-        for index, bit in enumerate(data):
-            s, e = bit[1], bit[2]
-            logging.debug("bitmask: %s: %s %s %s" %
-                          (index, s, e, bitdesc.name))
-            self.put_bitName(s, e, bitdesc)
-            pass
+        ss, es = data[7-bitdesc.mask.start][1], data[7-bitdesc.mask.end][2]
+        logging.debug("I²C DAG: _decode_listener_data_bits_xxx: %s" %
+                      bitdesc.mask.start)
+        logging.debug("I²C DAG: _decode_listener_data_bits_xxx: %s" %
+                      bitdesc.mask.end)
+        self.put_bitName(ss, es, bitdesc)
 
     def _decode_listener_data_bits(self, dag_bits):
-
         logging.debug(
             "I²C DAG: last_bits: [%s][%s] %s" % self._decode_listener_bits_last)
         logging.debug("I²C DAG: dag_bits_desc: %s" % dag_bits)
 
         for bitdesc in dag_bits:
             self._decode_listener_data_bits_xxx(bitdesc)
-            # fss = None
-            # for index, bit in enumerate(data):
-            #     logging.debug(
-            #         "I²C DAG: dag_bits_desc_loop: %s %s" % (index, bit))
-            #     if(((0x01 << index) & bitdesc.mask) > 0):
-            #         if(fss == None):
-            #             fss = bit[1]
-
-            # logging.debug("bitmask: %s: %s %s %s" %
-            #                 (index, fss, bit[2], bitdesc.name))
-            # self.put_bitName(fss, bit[2], bitdesc)
 
     def _decode_listener_data(self, ss, es, data) -> None:
         if self._dag == None:
