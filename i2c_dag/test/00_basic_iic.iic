@@ -1,0 +1,12 @@
+idle
+start
+0x02
+ack
+0x02
+ack
+0x05
+ack
+0x49
+nack
+stop
+idle
