@@ -85,10 +85,10 @@ dag:
   0x52:
     0x00:
       info:
-        name: page 0 CTRLl
+        name: page 0 VSIZE
       dag_bits:
-        - name: CTRLl
-          longname: CTRLl
+        - name: VSIZE
+          longname: VSIZE
           mask:
             start: 0
             end: 7

@@ -10,8 +10,9 @@
   - [x] single byte analyse
   - [ ] multibyte analyse
 - [x] iic bit analyse
-- [ ] multi page iic device support
-- [ ] iic data addr auto increase
+- [x] multi page iic device support
+- [ ] indirect address support
+- [x] iic data addr auto increase
 - [ ] DAG Edit tool
   - Manual edit is too difficult
 
