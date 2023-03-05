@@ -59,6 +59,28 @@ dag:
           longname: HSIZE
           mask:
             start: 0
+            end: 3
+          value:
+            0x00: VAL_51_00_00
+            0x01: VAL_51_00_01
+            0x02: VAL_51_00_02
+            0x03: VAL_51_00_03
+            0x04: VAL_51_00_04
+        - name: HSIZE_2
+          longname: HSIZE
+          mask:
+            start: 4
+            end: 6
+          value:
+            0x00: VAL_51_00_00
+            0x01: VAL_51_00_01
+            0x02: VAL_51_00_02
+            0x03: VAL_51_00_03
+            0x04: VAL_51_00_04
+        - name: HSIZE_3
+          longname: HSIZE
+          mask:
+            start: 7
             end: 7
           value:
             0x00: VAL_51_00_00
