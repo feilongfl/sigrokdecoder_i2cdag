@@ -1,6 +1,7 @@
 import yaml
 import os
 import logging
+from enum import Enum
 
 LOGGER = logging.getLogger(__name__)
 
@@ -45,7 +46,15 @@ class YAMLObject():
         return self.__dict__.items()
 
 
+class PageChanging(Enum):
+    IDLE = 1
+    PAGE = 2
+    PUT = 3
+
+
 class DAGObject(YAMLObject):
+    SELF_PAGECHANGING_STATE = ['idle', 'waitPage', 'waitPut']
+
     def __init__(self, parent: dict = {}, file=None) -> None:
         super().__init__(parent, file)
 
@@ -56,13 +65,31 @@ class DAGObject(YAMLObject):
         if 'page' not in self.__dict__:
             self.page = None
 
+        self.page_changing = PageChanging.IDLE
+
     def getName(self):
+        if self.page_changing == PageChanging.PAGE:
+            return ['PageChange']
+        elif self.page_changing == PageChanging.PUT:
+            self.page_changing = PageChanging.IDLE
+            return ['PageChange: %s' % self.page.current, '%s' % self.page.current]
+
         return [self.info.longname, self.info.name]
 
     def getDAG(self, id):
         ret = None
+
+        if self.page != None:
+            if self.page_changing == PageChanging.PAGE:
+                self.setPage(id)
+                self.page_changing = PageChanging.PUT
+                return self
+            elif self.page.address == id:
+                self.page_changing = PageChanging.PAGE
+                return self
+
         if 'dag' not in self.__dict__.keys():
-            return
+            return None
 
         if id in self.dag.__dict__.keys():
             if self.page == None:

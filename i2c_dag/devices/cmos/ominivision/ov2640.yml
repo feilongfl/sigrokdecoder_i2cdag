@@ -21,7 +21,7 @@ dag:
   0x50:
     0x00:
       info:
-        name: CTRLl
+        name: page 0 CTRLl
       mask:
         start: 0
         end: 7
@@ -42,6 +42,29 @@ dag:
         0xd: OV2640_50__0d
         0xe: OV2640_50__0e
         0xf: OV2640_50__0f
+    0x01:
+      info:
+        name: page 1 CTRLl
+      mask:
+        start: 0
+        end: 7
+      value:
+        0x0: OV2640_page1_50__00
+        0x1: OV2640_page1_50__01
+        0x2: OV2640_page1_50__02
+        0x3: OV2640_page1_50__03
+        0x4: OV2640_page1_50__04
+        0x5: OV2640_page1_50__05
+        0x6: OV2640_page1_50__06
+        0x7: OV2640_page1_50__07
+        0x8: OV2640_page1_50__08
+        0x9: OV2640_page1_50__09
+        0xa: OV2640_page1_50__0a
+        0xb: OV2640_page1_50__0b
+        0xc: OV2640_page1_50__0c
+        0xd: OV2640_page1_50__0d
+        0xe: OV2640_page1_50__0e
+        0xf: OV2640_page1_50__0f
   0x51:
     0x00:
       info:
