@@ -8,11 +8,11 @@
 - [x] iic addr analyse
 - [ ] iic data analyse
   - [x] single byte analyse
-  - [ ] multibyte analyse
+  - [ ] multibyte analyse(12bit/16bit/more, like ti ser ds90ub925)
 - [x] iic bit analyse
-- [x] multi page iic device support
+- [x] multi page iic device support(like Ov2640)
 - [ ] indirect address support
-- [x] iic data addr auto increase
+- [x] iic data addr auto increase(like ti ser ds90ub925)
 - [ ] DAG Edit tool
   - Manual edit is too difficult
 
