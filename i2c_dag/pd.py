@@ -21,6 +21,7 @@ import sigrokdecode as srd
 import os
 import logging
 import tempfile
+import debugpy
 
 from .dag_object import DAGObject
 
@@ -56,6 +57,14 @@ class Decoder(srd.Decoder):
         ('frame', 'Frames', (1, )),
     )
 
+    def __init_debuger__(self):
+        debugpy.listen(5678)
+        logging.info("I²C DAG: waiting debugger")
+        debugpy.wait_for_client()
+        logging.info("I²C DAG: debugger connect")
+        debugpy.breakpoint()
+        logging.info("I²C DAG: debugger run")
+
     def __init__(self):
         logging.info("I²C DAG: init")
         print(f"I²C DAG: log storage to {logfile}")
@@ -64,6 +73,7 @@ class Decoder(srd.Decoder):
         self.dag = None
 
         self._decode_listener_init()
+        # self.__init_debuger__()
 
     def reset(self):
         logging.info("I²C DAG: reset")
@@ -128,6 +138,7 @@ class Decoder(srd.Decoder):
 
         if 'dag_bits' in self._dag.__dict__.keys():
             self._decode_listener_data_bits(self._dag.dag_bits, data[1])
+            self._dag = self._dag.nextDag()
             pass
         else:
             self._dag = self._dag.getDAG(data[1])

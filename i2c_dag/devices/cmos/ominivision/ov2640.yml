@@ -22,94 +22,94 @@ dag:
     0x00:
       info:
         name: page 0 CTRLl
-      mask:
-        start: 0
-        end: 7
-      value:
-        0x0: OV2640_50__00
-        0x1: OV2640_50__01
-        0x2: OV2640_50__02
-        0x3: OV2640_50__03
-        0x4: OV2640_50__04
-        0x5: OV2640_50__05
-        0x6: OV2640_50__06
-        0x7: OV2640_50__07
-        0x8: OV2640_50__08
-        0x9: OV2640_50__09
-        0xa: OV2640_50__0a
-        0xb: OV2640_50__0b
-        0xc: OV2640_50__0c
-        0xd: OV2640_50__0d
-        0xe: OV2640_50__0e
-        0xf: OV2640_50__0f
+      dag_bits:
+        - name: CTRLl
+          longname: CTRLl
+          mask:
+            start: 0
+            end: 7
+          value:
+            0x00: VAL_50_00_00
+            0x01: VAL_50_00_01
+            0x02: VAL_50_00_02
+            0x03: VAL_50_00_03
+            0x04: VAL_50_00_04
     0x01:
       info:
-        name: page 1 CTRLl
-      mask:
-        start: 0
-        end: 7
-      value:
-        0x0: OV2640_page1_50__00
-        0x1: OV2640_page1_50__01
-        0x2: OV2640_page1_50__02
-        0x3: OV2640_page1_50__03
-        0x4: OV2640_page1_50__04
-        0x5: OV2640_page1_50__05
-        0x6: OV2640_page1_50__06
-        0x7: OV2640_page1_50__07
-        0x8: OV2640_page1_50__08
-        0x9: OV2640_page1_50__09
-        0xa: OV2640_page1_50__0a
-        0xb: OV2640_page1_50__0b
-        0xc: OV2640_page1_50__0c
-        0xd: OV2640_page1_50__0d
-        0xe: OV2640_page1_50__0e
-        0xf: OV2640_page1_50__0f
+        name: page 0 CTRLl
+      dag_bits:
+        - name: CTRLl
+          longname: CTRLl
+          mask:
+            start: 0
+            end: 7
+          value:
+            0x00: VAL_50_01_00
+            0x01: VAL_50_01_01
+            0x02: VAL_50_01_02
+            0x03: VAL_50_01_03
+            0x04: VAL_50_01_04
+
   0x51:
     0x00:
       info:
-        name: HSIZE
-      mask:
-        start: 0
-        end: 7
-      value:
-        0x0: OV2640_51__00
-        0x1: OV2640_51__01
-        0x2: OV2640_51__02
-        0x3: OV2640_51__03
-        0x4: OV2640_51__04
-        0x5: OV2640_51__05
-        0x6: OV2640_51__06
-        0x7: OV2640_51__07
-        0x8: OV2640_51__08
-        0x9: OV2640_51__09
-        0xa: OV2640_51__0a
-        0xb: OV2640_51__0b
-        0xc: OV2640_51__0c
-        0xd: OV2640_51__0d
-        0xe: OV2640_51__0e
-        0xf: OV2640_51__0f
+        name: page 0 HSIZE
+      dag_bits:
+        - name: HSIZE
+          longname: HSIZE
+          mask:
+            start: 0
+            end: 7
+          value:
+            0x00: VAL_51_00_00
+            0x01: VAL_51_00_01
+            0x02: VAL_51_00_02
+            0x03: VAL_51_00_03
+            0x04: VAL_51_00_04
+    0x01:
+      info:
+        name: page 01 51
+      dag_bits:
+        - name: CTRLl
+          longname: CTRLl
+          mask:
+            start: 0
+            end: 7
+          value:
+            0x00: VAL_51_01_00
+            0x01: VAL_51_01_01
+            0x02: VAL_51_01_02
+            0x03: VAL_51_01_03
+            0x04: VAL_51_01_04
+
   0x52:
     0x00:
       info:
-        name: V_SIZE
-      mask:
-        start: 0
-        end: 7
-      value:
-        0x0: OV2640_52__00
-        0x1: OV2640_52__01
-        0x2: OV2640_52__02
-        0x3: OV2640_52__03
-        0x4: OV2640_52__04
-        0x5: OV2640_52__05
-        0x6: OV2640_52__06
-        0x7: OV2640_52__07
-        0x8: OV2640_52__08
-        0x9: OV2640_52__09
-        0xa: OV2640_52__0a
-        0xb: OV2640_52__0b
-        0xc: OV2640_52__0c
-        0xd: OV2640_52__0d
-        0xe: OV2640_52__0e
-        0xf: OV2640_52__0f
+        name: page 0 CTRLl
+      dag_bits:
+        - name: CTRLl
+          longname: CTRLl
+          mask:
+            start: 0
+            end: 7
+          value:
+            0x00: VAL_52_00_00
+            0x01: VAL_52_00_01
+            0x02: VAL_52_00_02
+            0x03: VAL_52_00_03
+            0x04: VAL_52_00_04
+    0x01:
+      info:
+        name: 0x52REG P1
+      dag_bits:
+        - name: 0x52REG page1
+          longname: 0x52REG p1
+          mask:
+            start: 0
+            end: 7
+          value:
+            0x00: VAL_52_01_00
+            0x01: VAL_52_01_01
+            0x02: VAL_52_01_02
+            0x03: VAL_52_01_03
+            0x04: VAL_52_01_04

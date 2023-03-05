@@ -41,7 +41,7 @@ class TestDAGObject:
             dag.setPage(0)
             for k in dag.getDAGkeys():
                 child = dag.getDAG(k)
-                if(child != None):
+                if(child != None and k!='parent'):
                     pk(child, name)
 
         pk(self.dag, 'root')

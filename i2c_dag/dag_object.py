@@ -7,17 +7,19 @@ LOGGER = logging.getLogger(__name__)
 
 
 class YAMLObject():
-    def __init__(self, parent: dict = {}, file=None) -> None:
+    def __init__(self, ymlObj: dict = {}, file=None, parent=None) -> None:
         if(file != None):
             with open(os.path.relpath(file)) as f:
-                parent = yaml.safe_load(f)
+                ymlObj = yaml.safe_load(f)
 
-        for k, v in parent.items():
+        self.parent = parent
+
+        for k, v in ymlObj.items():
             match v:
                 case dict():
                     LOGGER.debug(f"dict  : k={k}, t={type(v)}, v={v}")
                     if k not in self.__dict__.keys():
-                        self.__dict__[k] = self.__class__(v)
+                        self.__dict__[k] = self.__class__(v, parent=self)
 
                 case list():
                     LOGGER.debug(f"list  : k={k}, t={type(v)}, v={v}")
@@ -25,7 +27,8 @@ class YAMLObject():
                         self.__dict__[k] = []
 
                     for item in v:
-                        self.__dict__[k].append(self.__class__(item))
+                        self.__dict__[k].append(
+                            self.__class__(item, parent=self))
 
                 case _:
                     if(k == 'include'):
@@ -33,7 +36,7 @@ class YAMLObject():
                         dir = os.path.dirname(os.path.realpath(__file__))
                         file = os.path.join(dir, 'devices', v)
 
-                        for k, v in self.__class__(file=file).items():
+                        for k, v in self.__class__(file=file, parent=self).items():
                             self.__dict__[k] = v
                     else:
                         LOGGER.debug(f"others: k={k}, t={type(v)}, v={v}")
@@ -55,8 +58,8 @@ class PageChanging(Enum):
 class DAGObject(YAMLObject):
     SELF_PAGECHANGING_STATE = ['idle', 'waitPage', 'waitPut']
 
-    def __init__(self, parent: dict = {}, file=None) -> None:
-        super().__init__(parent, file)
+    def __init__(self, ymlObj: dict = {}, file=None, parent=None) -> None:
+        super().__init__(ymlObj, file, parent)
 
         if 'info' in self.__dict__:
             if 'longname' not in self.info.__dict__:
@@ -75,6 +78,12 @@ class DAGObject(YAMLObject):
             return ['PageChange: %s' % self.page.current, '%s' % self.page.current]
 
         return [self.info.longname, self.info.name]
+
+    def nextDag(self):
+        next = self.parent.parent
+        next = next.parent if 'dag' not in next.__dict__.keys() else next
+
+        return next.getDAG(self.id+1)
 
     def getDAG(self, id):
         ret = None
@@ -99,6 +108,9 @@ class DAGObject(YAMLObject):
                     ret = self.dag.__dict__[id].__dict__[self.page.current]
                 except:
                     ret = None
+
+            if ret != None:
+                ret.id = id
 
         return ret
 
